@@ -15,7 +15,8 @@ mongoose.connect(db,{useNewUrlParser:true})
     .then(()=>console.log('Database connected'))
     .catch((err)=>console.log(err));
 
-app.use('/api/user',require('./routes/user/user'));
+app.use('/api/user',require('./routes/user/user')); //registration
+app.use('/api/auth',require('./routes/auth/auth'));
 app.listen(port,()=>{
     console.log("server started")
 })
