@@ -1,5 +1,5 @@
 const express =require('express');
-const {addRequest,getRequests}=require('../../controllers/request');
+const {addRequest,getRequests,acceptRequest}=require('../../controllers/request');
 const jwtMiddleware = require('../../middleware/jwtMiddleware');
 const router=express.Router();
 
@@ -12,6 +12,12 @@ router.post('/',addRequest);
 //endpoint : /api/request
 //method: get
 router.get('/',jwtMiddleware,getRequests);
+
+//accept a request
+router.get('/accept/:id',jwtMiddleware,acceptRequest);
+
+//verify request
+
 
 module.exports=router;
 

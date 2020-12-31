@@ -6,7 +6,7 @@ const RequestVerificationSchema = new Schema({
         type:String,
         required:true
     },
-    destination:{
+    requestid:{
         type:Schema.ObjectId,
         ref:'requests'
     }

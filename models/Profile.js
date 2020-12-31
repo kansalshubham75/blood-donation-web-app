@@ -17,14 +17,8 @@ const ProfileSchema= new mongoose.Schema({
     age:{
         type:Number
     },
-    active:[{
-            type: mongoose.Schema.Types.ObjectId,
-            ref:'requests'
-        }],
-    history:[{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'requests'
-    }]
+    active:[mongoose.Schema.Types.ObjectId],
+    history:[mongoose.Schema.Types.ObjectId]
 });
 
 const Profile=mongoose.model('profile',ProfileSchema);
