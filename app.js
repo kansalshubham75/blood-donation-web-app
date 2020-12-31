@@ -10,13 +10,13 @@ const app=express();
 app.use(cors());
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
-
 mongoose.connect(db,{useNewUrlParser:true})
     .then(()=>console.log('Database connected'))
     .catch((err)=>console.log(err));
 
 app.use('/api/user',require('./routes/user/user')); //registration
-app.use('/api/auth',require('./routes/auth/auth'));
+app.use('/api/auth',require('./routes/auth/auth')); //login
+app.use('/api/request',require('./routes/request/request'));
 app.listen(port,()=>{
     console.log("server started")
 })

@@ -5,24 +5,18 @@ const jwtMiddleware = require('../../middleware/jwtMiddleware');
 const User = require('../../models/User');
 const router=express.Router();
 
-// //Validate token
-// //endpoint /api/auth
-// //method get
-// router.get('/',jwtMiddleware,(req,res)=>{
-//     try {
-//         const user=await User.findById(req.user);
-//         if(user){
-//             const {name,}=
-//             res.json({user});
-//         }else{
-
-//         }
-//     } catch (error) {
-//         res.status(500).json({msg:'Server Error'});
-//     }
-// });
-
-
+//Validate token and send user object back
+//endpoint /api/auth
+//method get
+router.get('/',jwtMiddleware,async(req,res)=>{
+    try {
+        const user=await User.findById(req.userid);
+        const {name,email}=user;
+        res.json({name,email});
+    } catch (error) {
+        res.status(500).json({msg:'Server Error'});
+    }
+});
 
 //LOGIN
 //end-point /api/auth/login

@@ -18,15 +18,9 @@ const ProfileSchema= new mongoose.Schema({
         type:Number
     },
     active:[{
-        isActive:{
-            type:Boolean,
-            default:false
-        },
-        request:{
             type: mongoose.Schema.Types.ObjectId,
             ref:'requests'
-        }
-    }],
+        }],
     history:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:'requests'

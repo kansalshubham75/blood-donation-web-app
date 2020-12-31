@@ -11,6 +11,10 @@ const RequestSchema = new Schema({
         required: true,
         unique: true
     },
+    email:{
+        type:String,
+        required:true
+    },
     country:{
         type:String,
         required:true
@@ -20,6 +24,7 @@ const RequestSchema = new Schema({
         required:true
     },
     city:{
+        type:String,
         required:true
     },
     address:{
@@ -30,9 +35,12 @@ const RequestSchema = new Schema({
         type:String,
         required:true
     },
+    //0=active and unassigned
+    //1=active and assigned
+    //2=resolved
     active:{
-        type:Boolean,
-        default:true,
+        type:Number,
+        default:0,
         required:true
     }
 });

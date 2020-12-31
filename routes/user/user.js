@@ -12,9 +12,8 @@ check('email', 'Please include a valid email').isEmail(),
 check('password', 'Minimum password length is 6').isLength({ min: 6 })],
 (req,res)=>{
     const err=validationResult(req);
-
     if(!err.isEmpty()){
-        return res.status(400).json({ errors: errors.array() });
+        return res.status(400).json({ errors: err.array() });
     }else{
         addUser(req,res);
     }

@@ -68,9 +68,7 @@ const getUser=async (req,res)=>{
                 res.status(400).json({msg:'Invalid Credentials'})
             }else{
                 const payload={
-                    user:{
-                        id:user._id
-                    }
+                    userid:user._id
                 }
 
                 jwt.sign(payload,
