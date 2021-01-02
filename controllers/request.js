@@ -2,9 +2,9 @@ const Request = require('../models/Request');
 const Profile = require('../models/Profile');
 const User = require('../models/User');
 const { v4 } = require('uuid');
-const sendMail=require('../middleware/mail');
+const sendMail = require('../middleware/mail');
 const RequestVerification = require('../models/RequestVerification');
-
+const config = require('config');
 
 //post a new request
 const addRequest = async (req, res) => {
@@ -50,8 +50,8 @@ const acceptRequest = async (req, res) => {
         if (userProfile.active.length !== 0) {
             res.status(400).json({ msg: "You already have a pending request" })
         }
-        const request=await Request.findByIdAndUpdate(requestid, { $set: { active: 1, assignedto: userid } });
-        var arr=[];
+        const request = await Request.findByIdAndUpdate(requestid, { $set: { active: 1, assignedto: userid } });
+        var arr = [];
         arr.push(requestid);
         await Profile.findOneAndUpdate({ userid }, { $set: { active: arr } });
         const hash = v4();
@@ -60,14 +60,39 @@ const acceptRequest = async (req, res) => {
             hash,
             requestid
         });
-        const user=await User.findById(userid);
+        const user = await User.findById(userid);
         // const request=await Request.findById(requestid);
         await verification.save();
-        await sendMail(request.email,hash,user.name);
-        res.status(200).json({msg:"Success"});
+        const baseURI = config.get('baseURI');
+        const msg = `We are pleased to tell you that ${user.name} has stepped up as a volunteer for your request and will be 
+        contacting you. After donating you need to click this link to verify donation 
+        <a href=${baseURI}/api/request/verify/${hash}>${baseURI}/api/request/verify/${hash}<\a>`;
+        sendMail(request.email, msg, "We found you a volunteer!!");
+        res.status(200).json({ msg: "Success" });
     } catch (error) {
         console.log(error);
     }
 }
 
-module.exports = { getRequests, addRequest, acceptRequest };
+const verifyRequest = async(req, res) => {
+    const hash = req.params.hash;
+    try {
+        const doc = await RequestVerification.findOne({ hash });
+        if (doc) {
+            const requestid = doc.requestid;
+            const request = await Request.findById(requestid);
+            const userid = request.assignedto;
+            const profile = await Profile.findOne({ userid });
+            const newhistory = [...profile.active, ...profile.history];
+            await Profile.findOneAndUpdate({ userid }, { $set: { active: [], history: newhistory } })
+            await Request.findByIdAndUpdate(requestid, { $set: { active: 2 } });
+            await RequestVerification.findOneAndDelete({hash});
+            res.json({msg:"Request completion verified"});
+        } else {
+            res.status("400").json({ msg: "Invalid url" });
+        }
+    } catch (error) {
+        res.status(400).json({ msg: "Server error" });
+    }
+}
+module.exports = { getRequests, addRequest, acceptRequest, verifyRequest };

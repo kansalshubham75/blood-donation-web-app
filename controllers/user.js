@@ -2,7 +2,8 @@ const User=require('../models/User');
 const Profile=require('../models/Profile');
 const bcryptjs=require('bcrypt');
 const jwt=require('jsonwebtoken');
-const jwtSecret=require('../config/jwt');
+const config=require('config');
+const jwtSecret=config.get('jwtSecret');
 const {validationResult}=require('express-validator');
 
 const addUser=async (req,res) =>{

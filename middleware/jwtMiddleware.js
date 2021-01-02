@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
-const jwtsecret = require('../config/jwt');
+const config=require('config');
+const jwtSecret = config.get('jwtSecret');
 const jwtMiddleware = (req, res, next) => {
     var token = req.headers['x-auth-token'];
     if (!token) {
@@ -7,7 +8,7 @@ const jwtMiddleware = (req, res, next) => {
     }
     try {
         var decoded = jwt.verify(token,
-            jwtsecret);
+            jwtSecret);
         req.userid = decoded.userid;
         next();
     } catch (err) {

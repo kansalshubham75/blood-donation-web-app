@@ -1,8 +1,9 @@
 const nodemailer=require('nodemailer');
-const {senderid,senderpass}=require('../config/mail');
+const config=require('config');
+const senderid=config.get('senderid');
+const senderpass=config.get('senderpass');
 
-const sendMail=async (recipientid,hash,donator)=>{
-    console.log(senderid,senderpass);
+const sendMail=async (to,text,subject)=>{
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -10,14 +11,12 @@ const sendMail=async (recipientid,hash,donator)=>{
           pass: senderpass
         }
       });
-      const msg=`We are pleased to tell you that ${donator} has stepped up as a volunteer for your request and will be 
-                contacting you. After donating you need to click this link to verify donation https://localhost:5000/verify/${hash}`;
-    //   console.log(hash);
+      
       var mailOptions = {
         from: senderid,
-        to: recipientid,
-        subject:"We found you a volunteer!!",
-        text: msg
+        to,
+        subject,
+        text
       };
       try {
         await transporter.sendMail(mailOptions, function(error, info){
