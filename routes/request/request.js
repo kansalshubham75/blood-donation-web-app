@@ -8,7 +8,7 @@ const router=express.Router();
 //method: post
 router.post('/',addRequest);
 
-//get requests with matching bg
+//get requests with matching blood group
 //endpoint : /api/request
 //method: get
 router.get('/',jwtMiddleware,getRequests);
