@@ -1,8 +1,9 @@
 import { Form, Col, Button } from 'react-bootstrap';
 import { useState } from 'react';
-import axios from 'axios';
+import {connect} from 'react-redux'
+import {registerUser} from '../../actions/user'
 
-export const SignUp = (props) => {
+const SignUp = (props) => {
     const [bloodGroup, setBloodGroup] = useState('A+');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -17,9 +18,8 @@ export const SignUp = (props) => {
             console.log("Passwords dont match")
         }else{
             try {
-                const user={name,email,password,contact,bloodGroup,age}
-                const res = await axios.post('/api/user',user);
-                localStorage.setItem('token',res.data.token);
+                const user={name,email,password,contact,bloodGroup,age};
+                props.registerUser(user,props.history)
             } catch (error) {
                 console.log(error);
             }
@@ -96,3 +96,6 @@ export const SignUp = (props) => {
         </div>
     )
 }
+
+
+export default connect(null,{registerUser})(SignUp)
