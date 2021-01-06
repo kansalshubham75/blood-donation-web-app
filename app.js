@@ -4,7 +4,6 @@ const path=require('path');
 const cors=require('cors');
 const bodyParser = require('body-parser');
 const config=require('config');
-
 const db=config.get('mongoURI');
 const port = process.env.PORT || 5000;
 

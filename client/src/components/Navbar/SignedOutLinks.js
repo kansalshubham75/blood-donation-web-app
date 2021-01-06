@@ -1,5 +1,7 @@
 import { Fragment } from "react";
 import { Nav , Button} from 'react-bootstrap';
+import { LinkContainer } from "react-router-bootstrap";
+// import {Link} from 'react-router-dom'
 
 export const SignedOutLinks = () =>{
     const links = [
@@ -17,14 +19,16 @@ export const SignedOutLinks = () =>{
         <Fragment>
             {links.map((item,index)=>{
                 return(
-                    <Nav.Item key={index}>
-                        <Nav.Link href={item.url} style={style}>
-                            {item.title}
-                        </Nav.Link>
-                    </Nav.Item>
+                        <Nav.Item key={index} style={style}>
+                            <LinkContainer to={item.url}>
+                                <Nav.Link>
+                                    {item.title}
+                                </Nav.Link>
+                            </LinkContainer>
+                        </Nav.Item>
                 )
             })}
-            <Button href="/sign-up" variant="outline-light" style={style}>Sign Up</Button>
+            <LinkContainer style={style} to="/sign-up"><Button variant="outline-light" >Sign Up</Button></LinkContainer>
         </Fragment>
     )
 }

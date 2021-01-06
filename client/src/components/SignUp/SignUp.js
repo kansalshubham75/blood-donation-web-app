@@ -1,7 +1,8 @@
 import { Form, Col, Button } from 'react-bootstrap';
 import { useState } from 'react';
+import axios from 'axios';
 
-export const SignUp = () => {
+export const SignUp = (props) => {
     const [bloodGroup, setBloodGroup] = useState('A+');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -10,9 +11,21 @@ export const SignUp = () => {
     const [contact, setContact] = useState('');
     const [age, setAge] = useState('');
 
-    const handleSubmit = () =>{
-
+    const handleSubmit = async (e) =>{
+        e.preventDefault();
+        if(password!==password2){
+            console.log("Passwords dont match")
+        }else{
+            try {
+                const user={name,email,password,contact,bloodGroup,age}
+                const res = await axios.post('/api/user',user);
+                localStorage.setItem('token',res.data.token);
+            } catch (error) {
+                console.log(error);
+            }
+        }
     }
+    
     
     return (
         <div className="justify-content-center container form-style">

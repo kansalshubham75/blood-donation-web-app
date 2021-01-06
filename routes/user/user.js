@@ -1,6 +1,7 @@
 const express=require('express');
 const { check, validationResult } = require('express-validator');
 const {addUser} = require('../../controllers/user');
+const User = require('../../models/User');
 const router=express.Router();
 
 
@@ -18,6 +19,7 @@ check('password', 'Minimum password length is 6').isLength({ min: 6 })],
         addUser(req,res);
     }
 });
+
 
 module.exports=router;
 
