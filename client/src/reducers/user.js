@@ -8,8 +8,7 @@ const initialState = {
     isAuthenticated: false,
     user : {},
     loading : true,
-    token : localStorage.getItem('token'),
-    err : ""
+    token : localStorage.getItem('token')
 }
 
 export const userReducer = (state = initialState, action) => {
@@ -22,7 +21,6 @@ export const userReducer = (state = initialState, action) => {
                                     loading : false,
                                     isAuthenticated : false,
                                     token : payload.token,
-                                    err : ''
                                 }
         case LOAD_USER_SUCCESS : 
                                 return {
@@ -30,7 +28,6 @@ export const userReducer = (state = initialState, action) => {
                                     isAuthenticated:true,
                                     loading : false,
                                     user : payload.user,
-                                    err : ''
                                 }
         case REGISTER_USER_FAIL : 
         case LOAD_USER_FAIL:
@@ -38,8 +35,7 @@ export const userReducer = (state = initialState, action) => {
                                     ...state,
                                     loading : false,
                                     isAuthenticated : false,
-                                    token : null,
-                                    err : payload.msg
+                                    token : null
                                 }
         default: return state;
     }
