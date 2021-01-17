@@ -1,13 +1,26 @@
 import {Form,Button} from 'react-bootstrap';
-import {useState} from 'react'
-export const SignIn = () =>{
+import {useState} from 'react';
+import {connect} from 'react-redux'
+import {loginUser} from '../../actions/user';
+import PropTypes from 'prop-types'
+// import {Redirect} from 'react-router-dom'
+
+export const SignIn = ({history,isAuthenticated,loginUser}) =>{
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+
     const handleSubmit = async (e) =>{
         e.preventDefault();
+        try{
+            loginUser(email,password)
+        }catch(err){
+            console.log(err);
+        }
     }
-
+    if(isAuthenticated){
+        history.push('/requests')
+    }
     return(
         <div className="jumbotron justify-content-center container form-style">
             <Form onSubmit={handleSubmit}>
@@ -30,3 +43,11 @@ export const SignIn = () =>{
         </div>
     )
 }
+
+SignIn.propTypes={
+    loginUser:PropTypes.func.isRequired
+}
+const mapStateToProps = state =>({
+    isAuthenticated : state.user.isAuthenticated
+})
+export default connect(mapStateToProps,{loginUser})(SignIn);

@@ -1,18 +1,25 @@
+import {useEffect} from 'react'
+
 import NavBar from './components/Navbar/NavBar'
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
-import {SignIn} from './components/SignIn/SignIn';
+import SignIn from './components/SignIn/SignIn';
 import SignUp from './components/SignUp/SignUp'
 import Alert from './components/Alert/alert'
 import Request from './components/Request/Request'
-import store from './store';
-import {Provider} from 'react-redux'
+import {connect} from 'react-redux'
 import './App.css'
+import setAuthToken from './util/setAuthToken';
+import { loadUser } from './actions/user';
 
-
-function App() {
-  const isAuthenticated=true;
+const App = (props) => {
+  useEffect(() => {
+    if(localStorage.token){
+      setAuthToken(localStorage.token)
+      props.loadUser();
+    }
+  }, [])
+  
   return (
-    <Provider store={store}>
       <BrowserRouter>
         <div className="App">
           <NavBar />
@@ -24,8 +31,7 @@ function App() {
           </Switch>
         </div>
       </BrowserRouter>
-    </Provider>
   );
 }
 
-export default App;
+export default connect(null,{loadUser})(App);

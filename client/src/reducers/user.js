@@ -7,6 +7,7 @@ import {REGISTER_USER_SUCCESS,
 const initialState = {
     isAuthenticated: false,
     user : {},
+    profile : {},
     loading : true,
     token : localStorage.getItem('token')
 }
@@ -19,15 +20,15 @@ export const userReducer = (state = initialState, action) => {
                                 return {
                                     ...state,
                                     loading : false,
-                                    isAuthenticated : false,
-                                    token : payload.token,
+                                    isAuthenticated : true,
+                                    token : payload,
                                 }
         case LOAD_USER_SUCCESS : 
                                 return {
                                     ...state,
                                     isAuthenticated:true,
                                     loading : false,
-                                    user : payload.user,
+                                    user : payload,
                                 }
         case REGISTER_USER_FAIL : 
         case LOAD_USER_FAIL:

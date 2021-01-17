@@ -57,6 +57,7 @@ const addUser=async (req,res) =>{
 
 const getUser=async (req,res)=>{
     try{
+        console.log('api hit login')
         const errors=validationResult(req);
         if(!errors.isEmpty()){
             res.status(409).json({errors:errors.array()})
@@ -66,6 +67,7 @@ const getUser=async (req,res)=>{
         if(user){
             const isValid=await bcryptjs.compare(password,user.password);
             if(!isValid){
+                console.log("no user")
                 res.status(400).json({msg:'Invalid Credentials'})
             }else{
                 const payload={
@@ -84,6 +86,7 @@ const getUser=async (req,res)=>{
                     });
             }
         }else{
+            
             res.status(400).json({msg:'User not found'})
         }
     }catch(err){

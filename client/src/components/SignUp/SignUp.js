@@ -4,8 +4,7 @@ import {connect} from 'react-redux';
 import {registerUser} from '../../actions/user';
 import {setAlert} from '../../actions/alert';
 
-
-const SignUp = (props) => {
+const SignUp = ({history,registerUser,setAlert,isAuthenticated}) => {
     const [bloodGroup, setBloodGroup] = useState('A+');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -17,17 +16,21 @@ const SignUp = (props) => {
     const handleSubmit = async (e) =>{
         e.preventDefault();
         if(password!==password2){
-            props.setAlert('Passwords do not match','danger')
+            setAlert('Passwords do not match','danger')
         }else{
             try {
                 const user={name,email,password,contact,bloodGroup,age};
-                props.registerUser(user,props.history)
+                registerUser(user)
+                history.push('/sign-in')
             } catch (error) {
                 console.log(error);
             }
         }
     }
     
+    if(isAuthenticated){
+        history.push('/requests')
+    }
     
     return (
         <div className="jumbotron justify-content-center container form-style">
@@ -99,5 +102,8 @@ const SignUp = (props) => {
     )
 }
 
+const mapStateToProps = state =>({
+    isAuthenticated : state.user.isAuthenticated
+})
 
-export default connect(null,{registerUser,setAlert})(SignUp)
+export default connect(mapStateToProps,{registerUser,setAlert})(SignUp)

@@ -10,6 +10,7 @@ const router=express.Router();
 //method get
 router.get('/',jwtMiddleware,async(req,res)=>{
     try {
+        console.log('api hit')
         const user=await User.findById(req.userid);
         const {name,email}=user;
         res.json({name,email});

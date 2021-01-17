@@ -2,8 +2,9 @@ import Navbar from 'react-bootstrap/Navbar';
 import {SignedInLinks} from './SignedInLinks';
 import {SignedOutLinks} from './SignedOutLinks';
 import logo from '../../img/logo.png'
-import { Nav , Button} from 'react-bootstrap';
+import { Nav} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
+import {connect} from 'react-redux';
 
 const NavBar = (props) => {
     const {isAuthenticated} = props;
@@ -30,4 +31,8 @@ const NavBar = (props) => {
     </Navbar>
 )}
 
-export default NavBar
+const mapStateToProps = state =>({
+    isAuthenticated : state.user.isAuthenticated
+})
+
+export default connect(mapStateToProps)(NavBar)
