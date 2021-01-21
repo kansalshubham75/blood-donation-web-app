@@ -4,6 +4,9 @@ import { LinkContainer } from "react-router-bootstrap";
 // import { Link } from "react-router-dom";
 
 export const SignedInLinks = () =>{
+    const handleLogout = () => {
+        
+    }
     const links = [
         {
             title : "Profile",
@@ -32,7 +35,7 @@ export const SignedInLinks = () =>{
                             </Nav.Item>
                     )
                 })}
-                <LinkContainer to="/logout" style={style}><Button variant="outline-danger">Logout</Button></LinkContainer>
+                <LinkContainer to="/logout" onClick={handleLogout} style={style}><Button variant="outline-danger">Logout</Button></LinkContainer>
         </Fragment>
     )
 }
